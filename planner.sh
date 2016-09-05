@@ -36,11 +36,11 @@ week_date() {
 }
 
 month_date() {
-    date "+%Y-%m-W%W"
+    date "+%Y-%m"
 }
 
 year_date() {
-    date "+%Y-%m-W%W"
+    date "+%Y"
 }
 
 main() {
