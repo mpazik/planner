@@ -2,10 +2,34 @@
 # A script that manages plan files
 
 SCRIPT_PATH=$(dirname "$0")
-PLANNER_DEFAULT_ACTION="week"
+PLANNER_SH=$(basename "$0")
+
+one_line_usage="${PLANNER_SH} [-h] action"
+
+usage()
+{
+    cat <<-EndUsage
+		Usage: ${one_line_usage}
+		Try '${PLANNER_SH} -h' for more information.
+	EndUsage
+    exit 1
+}
 
 show_help() {
-    echo "To be done"
+    cat <<EndHelp
+Program open plan files in the favorite editor.
+To see or change configuration, see file: ${SCRIPT_PATH}/planner.cfg
+
+Usage: ${one_line_usage}
+
+Options:
+  -h             display this help message
+
+Actions:
+  week           open week planning file
+  month          open month planning file
+  year           open year planning file
+EndHelp
 }
 
 die() {
@@ -46,7 +70,7 @@ year_date() {
 main() {
     import_config
 
-    local action=${1:-$PLANNER_DEFAULT_ACTION}
+    local action=${1:-${PLANNER_DEFAULT_ACTION:-"week"}}
 
     case ${action} in
         "week")
@@ -58,8 +82,11 @@ main() {
         "year")
             open_file $(year_date)
         ;;
+        "-h")
+            show_help
+        ;;
         * )
-        show_help
+        usage
         ;;
     esac
 }
