@@ -56,31 +56,35 @@ open_file() {
 }
 
 week_date() {
-    date "+%Y-%m-W%W"
+    local modifier=$1
+    date -v ${modifier}w "+%Y-%m-W%W"
 }
 
 month_date() {
-    date "+%Y-%m"
+    local modifier=$1
+    date -v ${modifier}m "+%Y-%m"
 }
 
 year_date() {
-    date "+%Y"
+    local modifier=$1
+    date -v ${modifier}y "+%Y"
 }
 
 main() {
     import_config
 
     local action=${1:-${PLANNER_DEFAULT_ACTION:-"week"}}
+    local modifier=${2:-"+0"}
 
     case ${action} in
         "week")
-            open_file $(week_date)
+            open_file $(week_date ${modifier})
         ;;
         "month")
-            open_file $(month_date)
+            open_file $(month_date ${modifier})
         ;;
         "year")
-            open_file $(year_date)
+            open_file $(year_date ${modifier})
         ;;
         "-h")
             show_help
